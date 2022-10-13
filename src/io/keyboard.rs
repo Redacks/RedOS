@@ -4,7 +4,11 @@ use pic8259::ChainedPics;
 use spin::{self, Mutex};
 use x86_64::{instructions::port::Port, structures::idt::InterruptStackFrame};
 
-use crate::{interrupts::InterruptIndex, io::german_layout::QWERTZ, print};
+use crate::{
+    config::{DefaultLayoutType, DEFAULT_LAYOUT},
+    interrupts::InterruptIndex,
+    print,
+};
 
 pub const PIC_1_OFFSET: u8 = 32;
 pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;
@@ -20,8 +24,9 @@ pub extern "x86-interrupt" fn timer_interrupt_handler(_stack_frame: InterruptSta
 }
 pub extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: InterruptStackFrame) {
     lazy_static! {
-        static ref KEYBOARD: Mutex<Keyboard<QWERTZ, ScancodeSet1>> =
-            Mutex::new(Keyboard::new(QWERTZ, ScancodeSet1, HandleControl::Ignore));
+        static ref KEYBOARD: Mutex<Keyboard<DefaultLayoutType, ScancodeSet1>> = Mutex::new(
+            Keyboard::new(DEFAULT_LAYOUT, ScancodeSet1, HandleControl::Ignore)
+        );
     }
     let mut keyboard = KEYBOARD.lock();
     let mut port = Port::new(0x60);

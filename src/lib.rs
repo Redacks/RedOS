@@ -3,6 +3,7 @@
 
 use io::keyboard::PICS;
 
+pub mod config;
 pub mod gdt;
 pub mod interrupts;
 pub mod io;
