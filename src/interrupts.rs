@@ -1,9 +1,26 @@
+use crate::io::keyboard::{keyboard_interrupt_handler, timer_interrupt_handler, PIC_1_OFFSET};
 use lazy_static::lazy_static;
 
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
 
 use crate::gdt::DOUBLE_FAULT_IST_INDEX;
 use crate::println;
+
+#[derive(Debug, Clone, Copy)]
+#[repr(u8)]
+pub enum InterruptIndex {
+    Timer = PIC_1_OFFSET,
+    Keyboard,
+}
+
+impl InterruptIndex {
+    pub fn as_u8(self) -> u8 {
+        self as u8
+    }
+    pub fn as_usize(self) -> usize {
+        usize::from(self.as_u8())
+    }
+}
 
 lazy_static! {
     static ref IDT: InterruptDescriptorTable = {
@@ -14,6 +31,8 @@ lazy_static! {
                 .set_handler_fn(double_fault_handler)
                 .set_stack_index(DOUBLE_FAULT_IST_INDEX);
         }
+        idt[InterruptIndex::Timer.as_usize()].set_handler_fn(timer_interrupt_handler);
+        idt[InterruptIndex::Keyboard.as_usize()].set_handler_fn(keyboard_interrupt_handler);
         idt
     };
 }
@@ -31,20 +50,4 @@ extern "x86-interrupt" fn double_fault_handler(
     _error_code: u64,
 ) -> ! {
     panic!("EXCEPTION: DOUBLE FAULT\n{:#?}", stack_frame);
-}
-
-#[derive(Debug, Clone, Copy)]
-#[repr(u8)]
-pub enum InterruptIndex {
-    Timer = PIC_1_OFFSET,
-    Keyboard,
-}
-
-impl InterruptIndex {
-    fn as:u8(self) -> i8 {
-        self as u8
-    }
-    fn as_usize(self) -> {
-        usize::from(self.as_u8())
-    }
 }
