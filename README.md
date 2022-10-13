@@ -17,6 +17,15 @@ https://www.qemu.org/download/
 
 For development i used VS-Code combined with the rust-analyzer, but feel free to use any other IDE or texteditor
 
+`cargo install bootimage`
+
+### On linux
+
+`sudo apt install gcc-multilib`
+`rustup override set nightly-2022-10-07-x86_64-unknown-linux-gnu`
+`rustup component add rust-src --toolchain nightly-2022-10-07-x86_64-unknown-linux-gnu`
+`rustup component add llvm-tools-preview `
+
 ## Running it
 
 ### Running
