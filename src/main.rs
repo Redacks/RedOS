@@ -13,21 +13,7 @@ use redos::hlt_loop;
 fn kernel_main(_boot_info: &'static BootInfo) -> ! {
     redos::init();
 
-    set_color(Color::Green, Color::Black);
-    println!("Hallo JOSH");
-
-    set_color(Color::Red, Color::Black);
-    x86_64::instructions::interrupts::int3();
-
-    set_color(Color::Green, Color::Black);
-    println!("Hallo again!");
-
-    set_color(Color::Red, Color::Black);
-
-    fn stack_overflow() {
-        stack_overflow();
-    }
-    stack_overflow();
+    println!("Hello World");
 
     hlt_loop();
 }
