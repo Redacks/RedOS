@@ -40,5 +40,3 @@ Currently the kernel can't do that much. It can only print text to the screen an
 
 Currently i am adding more interrupts and the gdt.
 After that i want to add paging and keyboard inputs.
-
-https://github.com/phil-opp/blog_os/tree/post-06/src
