@@ -2,11 +2,13 @@
 #![feature(abi_x86_interrupt)]
 
 use io::keyboard::PICS;
+extern crate alloc;
 
 pub mod config;
 pub mod gdt;
 pub mod interrupts;
 pub mod io;
+pub mod memory;
 pub mod screen;
 
 pub fn init() {

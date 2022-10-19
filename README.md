@@ -35,10 +35,13 @@ You can run the current kernel with `cargo run`
 ## What can it do
 
 Currently the kernel can't do that much. It can only print text to the screen and get some keyboard inputs.
+It supports basics of paging and heap allocation.
 
 ## Working on it
 
-Currently i am adding more interrupts and the gdt.
-After that i want to add paging and keyboard inputs.
+Better Allocation Design
+Async/Awaits (Threads)
 
-https://github.com/phil-opp/blog_os/blob/post-07/src/interrupts.rs
+FileSystem
+STD
+API to build Apps
