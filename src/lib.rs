@@ -1,5 +1,6 @@
 #![no_std]
 #![feature(abi_x86_interrupt)]
+#![feature(const_mut_refs)]
 
 use io::keyboard::PICS;
 extern crate alloc;
@@ -9,6 +10,7 @@ pub mod gdt;
 pub mod interrupts;
 pub mod io;
 pub mod memory;
+pub mod programms;
 pub mod screen;
 
 pub fn init() {
