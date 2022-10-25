@@ -1,33 +1,37 @@
 #![no_std]
 #![no_main]
+#![feature(alloc_error_handler)]
+
+extern crate alloc;
 
 use redos::{
+    memory::{
+        allocator,
+        paging::{self, BootInfoFrameAllocator},
+    },
     println,
+    programms::test::change_vgamode,
     screen::{text_styling::Color, vga_display::set_color},
 };
 
 use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 use redos::hlt_loop;
+use x86_64::VirtAddr;
 
-fn kernel_main(_boot_info: &'static BootInfo) -> ! {
+fn kernel_main(boot_info: &'static BootInfo) -> ! {
     redos::init();
 
-    set_color(Color::Green, Color::Black);
-    println!("Hallo JOSH");
+    let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
+    let mut mapper = unsafe { paging::init(phys_mem_offset) };
+    let mut frame_allocator = unsafe { BootInfoFrameAllocator::init(&boot_info.memory_map) };
 
     set_color(Color::Red, Color::Black);
-    x86_64::instructions::interrupts::int3();
+    allocator::init_heap(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
 
     set_color(Color::Green, Color::Black);
-    println!("Hallo again!");
-
-    set_color(Color::Red, Color::Black);
-
-    fn stack_overflow() {
-        stack_overflow();
-    }
-    stack_overflow();
+    println!("Starting Test Programm!");
+    change_vgamode();
 
     hlt_loop();
 }
@@ -37,4 +41,8 @@ entry_point!(kernel_main);
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
     hlt_loop();
+}
+#[alloc_error_handler]
+fn alloc_error_handler(layout: alloc::alloc::Layout) -> ! {
+    panic!("allocation error: {:?}", layout)
 }
