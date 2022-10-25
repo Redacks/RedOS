@@ -13,11 +13,13 @@ pc-keyboard = "0.5.0"
 linked_list_allocator = "0.9.0"
 vga = "0.2.7"
 
+
 [dependencies.lazy_static]
 version = "1.0"
 features = ["spin_no_std"]
 
 [package.metadata.bootimage]
+run-command = ["qemu-system-x86_64", "-drive", "format=raw,file={}"]
 test-args = [
     "-device", "isa-debug-exit,iobase=0xf4,iosize=0x04", "-serial", "stdio",
     "-display", "none"
@@ -25,3 +27,8 @@ test-args = [
 test-timeout = 300
 test-success-exit-code = 33
 
+[profile.dev]
+opt-level = 3
+
+[profile.release]
+opt-level = 3

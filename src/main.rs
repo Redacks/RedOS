@@ -10,7 +10,6 @@ use redos::{
         paging::{self, BootInfoFrameAllocator},
     },
     println,
-    programms::test::change_vgamode,
     screen::{text_styling::Color, vga_display::set_color},
 };
 
@@ -31,7 +30,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     set_color(Color::Green, Color::Black);
     println!("Starting Test Programm!");
-    change_vgamode();
+    redos::programms::test2::change_vgamode();
 
     hlt_loop();
 }
