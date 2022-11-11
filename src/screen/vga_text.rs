@@ -99,7 +99,7 @@ pub fn set_color(fg: Color, bg: Color) {
 #[macro_export]
 macro_rules! print {
     ($($arg:tt)*) => {
-        ($crate::screen::vga_display::_print(format_args!($($arg)*)))
+        ($crate::screen::vga_text::_print(format_args!($($arg)*)))
     };
 }
 

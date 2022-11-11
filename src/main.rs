@@ -11,7 +11,7 @@ use redos::{
     },
     println,
     programms::test::change_vgamode,
-    screen::{text_styling::Color, vga_display::set_color},
+    screen::{text_styling::Color, vga_text::set_color},
 };
 
 use bootloader::{entry_point, BootInfo};

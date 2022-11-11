@@ -1,16 +1,15 @@
-use vga::colors::Color16;
-use vga::writers::{Graphics640x480x16, GraphicsWriter};
+use vga::writers::{Graphics320x200x256, GraphicsWriter};
+
+use crate::screen::vga_pixel::draw_pixel;
 
 pub fn change_vgamode() {
-    let mode = Graphics640x480x16::new();
+    let mode = Graphics320x200x256::new();
     mode.set_mode();
-    mode.clear_screen(Color16::Black);
-    mode.draw_line((80, 60), (80, 420), Color16::White);
-    mode.draw_line((80, 60), (540, 60), Color16::White);
-    mode.draw_line((80, 420), (540, 420), Color16::White);
-    mode.draw_line((540, 420), (540, 60), Color16::White);
-    mode.draw_line((80, 90), (540, 90), Color16::White);
-    for (offset, character) in "Hello World! ASM SUCKS".chars().enumerate() {
-        mode.draw_character(240 + offset * 8, 72, character, Color16::White)
+    mode.clear_screen(0);
+
+    for x in 0..50 {
+        for y in 0..100 {
+            draw_pixel(x, y, 120);
+        }
     }
 }
