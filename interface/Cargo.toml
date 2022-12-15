@@ -1,0 +1,8 @@
+[package]
+name = "interface"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+vga = "0.2.7"
+redos-std = { path = "../redos-std" }
